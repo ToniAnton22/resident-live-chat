@@ -14,7 +14,9 @@
     // "lib": ["esnext"],
     // "types": ["node"],
     // and npm install -D @types/node
-
+    "paths": {
+      "@shared/*": ["../shared/*"]
+    },
     // Other Outputs
     "sourceMap": true,
     "declaration": true,
@@ -42,6 +44,6 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["server/**/*","src/**/*"],
+  "include": ["server/**/*", "src/**/*"],
   "exclude": ["node_modules"]
 }
