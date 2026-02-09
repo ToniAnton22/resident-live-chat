@@ -1,0 +1,19 @@
+{
+  "name": "resident-live-chat",
+  "version": "1.0.0",
+  "description": "A live demo of a life-chat application using Angluar, Nodejs + express.js",
+  "keywords": [
+    "Angular",
+    "Nodejs",
+    "Express",
+    "Typescript",
+    "Websockets"
+  ],
+  "license": "ISC",
+  "author": "Cristian Anton Frincu",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
