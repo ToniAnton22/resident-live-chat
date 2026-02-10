@@ -24,6 +24,9 @@ async function startServer() {
         io.emit("message", data);
       });
 
+      socket.on('connect', (user) => {
+        io.emit("connect", `User ${user} has joined the chat`)
+      })
       socket.on("disconnect", () => {
         console.log("User disconnected", socket.id);
       });
@@ -34,7 +37,6 @@ async function startServer() {
     httpServer.listen(PORT, () => {
       console.log(`Server running on Port ${PORT}`);
     });
-
   } catch (e) {
     const message =
       e instanceof Error ? e.message : "An unknown error has occured";
@@ -47,4 +49,4 @@ async function startServer() {
   }
 }
 
-startServer()
+startServer();
