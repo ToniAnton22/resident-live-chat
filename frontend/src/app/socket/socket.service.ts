@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 import { fromEvent, map, Observable } from 'rxjs';
 
 interface ISocketService {
-  sendMessage(data: UserMessageInput): void;
+  sendMessage(data: Messages): void;
   watchNewMessage$(): Observable<Messages>;
   connected$(): Observable<boolean>;
 }
@@ -26,8 +26,8 @@ export class SocketService implements ISocketService {
     });
   }
 
-  sendMessage(data: UserMessageInput): void {
-    throw Error('Not implemented');
+  sendMessage(data: Messages): void {
+    this.socket.emit('messages', data);
   }
   watchNewMessage$(): Observable<Messages> {
     return fromEvent(this.socket, 'messages');

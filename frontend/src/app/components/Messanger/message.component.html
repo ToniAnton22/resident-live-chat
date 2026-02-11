@@ -1,15 +1,47 @@
 <main class="flex flex-col h-screen">
-  <header class="p-4 bg-gray-800 text-white">
-    <h1>Hello {{ handShakeResponse }}</h1>
+  <header class="p-4 bg-slate-900 text-white flex justify-between">
+    <h1 class="p-4">Hello {{ user().name }}</h1>
+    <div class="mx-10 flex items-center gap-2">
+      <input
+        class="px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        placeholder="Username"
+        #usernameInput
+        (input)="setUsername(usernameInput.value)"
+        [value]="user().name"
+      />
+    </div>
   </header>
-  <section class="bg-zinc-400 flex-2 overflow-y-scroll border-b-2 obrd">
+  <section class="bg-slate-200 flex-1 overflow-y-auto">
+    @if (messages().length < 1) {
+      <p>No messages</p>
+    } @else {
+      @for (message of messages(); track message.id) {
+        @if (message.ownerId === user().id) {
+          <div class="border">
+            <p>{{ message.message }}</p>
+            <span>{{ message.timestap }}</span>
+          </div>
+        }
+      }
+    }
   </section>
-  <footer class="h-24 p-2 bg-gray-800 text-white">
-    <div class="bg-gray-200/20 mx-auto w-2/3 flex justify-center items-center h-full">
-      <div class="flex">
-        <input />
-
-      </div>
+  <footer class="h-24 p-2 bg-slate-200">
+    <div
+      class="bg-slate-200 borde rounded-xl mx-auto w-2/3 flex justify-center items-center h-full shadow-sm"
+    >
+      <form (submit)="sendMessage($event)" class="flex gap-2 w-full px-4">
+        <input
+          #messageInput
+          [formField]="messageForm.message"
+          class="flex-1 px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <button
+          class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors"
+          type="submit"
+        >
+          Send
+        </button>
+      </form>
     </div>
   </footer>
 </main>

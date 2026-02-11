@@ -20,13 +20,13 @@ async function startServer() {
     io.on("connection", (socket) => {
       console.log("User connected:", socket.id);
 
-      socket.on("message", (data) => {
-        io.emit("message", data);
+      socket.on("messages", (data) => {
+        io.emit("messages", data);
       });
 
-      socket.on('connect', (user) => {
-        io.emit("connect", `User ${user} has joined the chat`)
-      })
+      socket.on("connect", (user) => {
+        io.emit("connect", `User ${user} has joined the chat`);
+      });
       socket.on("disconnect", () => {
         console.log("User disconnected", socket.id);
       });
