@@ -35,10 +35,9 @@ export class MessageComponent implements OnInit {
 
   ngOnInit(): void {
     this.socketConnection.watchNewMessage$().subscribe((msg) => {
-      if (msg.ownerId === this.user().id) {
+      if (msg.ownerId === this.user().name) {
         return;
       }
-      console.log(msg);
       if (this.messages().length < 1) {
         this.messages.set([msg]);
         return;
@@ -64,7 +63,7 @@ export class MessageComponent implements OnInit {
         ...messages,
         {
           id: crypto.randomUUID(),
-          ownerId: this.user().id,
+          ownerId: this.user().name,
           message: message,
           timestap: new Date(),
         },
@@ -72,7 +71,7 @@ export class MessageComponent implements OnInit {
 
       this.socketConnection.sendMessage({
         id: crypto.randomUUID(),
-        ownerId: this.user().id,
+        ownerId: this.user().name,
         message: message,
         timestap: new Date(),
       });
