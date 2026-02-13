@@ -99,6 +99,10 @@ export class MessageComponent implements OnInit {
         message: message,
         timestamp: new Date().toDateString(),
       });
+
+      this.messageModel.update((m) => ({
+        message: '',
+      }));
     });
   }
 

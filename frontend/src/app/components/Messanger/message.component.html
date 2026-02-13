@@ -59,8 +59,11 @@
     >
       <form (submit)="sendMessage($event)" class="flex gap-2 w-full px-4">
         <input
-          #messageInput
-          autocorrect="new-password"
+          type="text"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
           [formField]="messageForm.message"
           class="flex-1 px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
