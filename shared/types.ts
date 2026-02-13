@@ -9,13 +9,13 @@ export type Messages = {
   id: string;
   ownerId: string;
   message: string;
-  timestap: Date;
+  timestamp: string;
 };
 
 export interface UserMessageInput {
   name: string;
   message: string;
-  timestamp: Date;
+  timestamp: string;
 }
 
 export interface UserInput {

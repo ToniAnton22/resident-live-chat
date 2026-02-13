@@ -2,7 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
-
+let numUsersConnected = 0;
 async function startServer() {
   const app = express();
   const httpServer = createServer(app);
@@ -19,16 +19,20 @@ async function startServer() {
 
     io.on("connection", (socket) => {
       console.log("User connected:", socket.id);
+      numUsersConnected += 1;
+      io.emit("numConnected", numUsersConnected);
 
       socket.on("messages", (data) => {
-        io.emit("messages", data);
+        socket.broadcast.emit("messages", data);
       });
 
-      socket.on("connect", (user) => {
-        io.emit("connect", `User ${user} has joined the chat`);
+      socket.on("user:join", (user) => {
+        io.emit("system", `User ${user} has joined the chat`);
       });
       socket.on("disconnect", () => {
         console.log("User disconnected", socket.id);
+        numUsersConnected -= 1;
+        io.emit("numConnected", numUsersConnected);
       });
     });
 

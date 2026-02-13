@@ -1,0 +1,47 @@
+<div
+  class="absolute z-30 bg-slate-900/60 backdrop-blur-sm h-screen overflow-hidden w-screen flex justify-center items-center"
+>
+  <div
+    class="bg-slate-900 w-full max-w-md mx-4 border-2 border-slate-700 rounded-2xl p-8 text-white shadow-2xl"
+  >
+    <h1
+      class="text-center text-3xl pb-2 font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
+    >
+      Welcome to the Residential Chat!
+    </h1>
+    <p class="text-sm font-medium text-slate-400 pb-6 text-center">
+      Please enter your name to join the conversation
+    </p>
+    <div class="space-y-4">
+      @if (userForm.username().invalid() && attempted()) {
+        <ul>
+          @for (error of userForm.username().errors(); track error) {
+            <li class="text-red-400 text-xs flex items-center gap-1">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              {{ error.message }}
+            </li>
+          }
+        </ul>
+      }
+      <input
+        type="text"
+        [formField]="userForm.username"
+        placeholder="Enter your username"
+        autocomplete="off"
+        class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-inner"
+      />
+      <button
+        (click)="onSubmit($event)"
+        class="w-full px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+      >
+        Join Chat
+      </button>
+    </div>
+  </div>
+</div>

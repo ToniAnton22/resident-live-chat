@@ -7,7 +7,8 @@ import { fromEvent, map, Observable } from 'rxjs';
 interface ISocketService {
   sendMessage(data: Messages): void;
   watchNewMessage$(): Observable<Messages>;
-  connected$(): Observable<boolean>;
+  join(user: string): void;
+  watchUsersConnect$(): Observable<number>;
 }
 
 @Injectable({
@@ -15,14 +16,16 @@ interface ISocketService {
 })
 export class SocketService implements ISocketService {
   // Define socket service class
+  private static instanceCount = 0;
   private socket: Socket;
 
   constructor() {
+    SocketService.instanceCount++;
+    console.log('SocketService constructed. count=', SocketService.instanceCount);
+    
     this.socket = io(environment.socketUrl, {
       reconnectionDelayMax: 10000,
-      auth: {
-        token: 'Auth-token',
-      },
+      auth: { token: 'Auth-token' },
     });
   }
 
@@ -33,7 +36,11 @@ export class SocketService implements ISocketService {
     return fromEvent(this.socket, 'messages');
   }
 
-  connected$(): Observable<boolean> {
-    return fromEvent(this.socket, 'connect').pipe(map(() => true));
+  join(user: string) {
+    this.socket.emit('user:join', user);
+  }
+
+  watchUsersConnect$(): Observable<number> {
+    return fromEvent(this.socket, 'numConnected');
   }
 }

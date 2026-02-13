@@ -1,14 +1,15 @@
-<main class="flex flex-col h-screen">
+<main class="flex flex-col h-screen relative">
+  @if (open()) {
+    <modal (usernameChange)="handleUsernameChange($event)"> </modal>
+  }
   <header class="p-4 bg-slate-900 text-white flex justify-between">
-    <h1 class="p-4">Hello {{ user().name }}</h1>
-    <div class="mx-10 flex items-center gap-2">
-      <input
-        class="px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        placeholder="Username"
-        #usernameInput
-        (input)="setUsername(usernameInput.value)"
-        [value]="user().name"
-      />
+    <h1
+      class="p-4 text-3xl font-bold bg-gradient-to-l from-indigo-300 to bg-purple-400 bg-clip-text text-transparent"
+    >
+      Logged as {{ user().name }}
+    </h1>
+    <div class="mx-10 flex items-center gap-2 text-gray-300 font-bold">
+      Users connected: {{ numUsersConnected() }}
     </div>
   </header>
   <section class="bg-slate-200 flex-1 overflow-y-auto p-4 space-y-3">
@@ -18,7 +19,7 @@
       </div>
     } @else {
       @for (message of messages(); track message.id) {
-        @if (!message.ownerId) {
+        @if (!message.ownerId || message.ownerId == 'system') {
           <div class="flex justify-center">
             <span class="text-slate-500 text-xs bg-slate-300 px-3 py-1 rounded-full">
               {{ message.message }}
@@ -31,7 +32,7 @@
               <div class="bg-indigo-600 text-white rounded-2xl rounded-tr-sm px-4 py-2">
                 <p class="wrap-break-word">{{ message.message }}</p>
                 <span class="text-xs text-indigo-200 mt-1 block text-right">
-                  {{ message.timestap ? message.timestap.toDateString() : '' }}
+                  {{ message.timestamp | date: 'short' }}
                 </span>
               </div>
             </div>
@@ -41,9 +42,9 @@
             <div class="max-w-[70%]">
               <div class="text-xs text-slate-600 mb-1">{{ message.ownerId }}</div>
               <div class="bg-white border border-slate-300 rounded-2xl rounded-tl-sm px-4 py-2">
-                <p class="break-words text-slate-900">{{ message.message }}</p>
+                <p class="wrap-break-word text-slate-900">{{ message.message }}</p>
                 <span class="text-xs text-slate-500 mt-1 block">
-                  {{ message.timestap }}
+                  {{ message.timestamp | date: 'short' }}
                 </span>
               </div>
             </div>
