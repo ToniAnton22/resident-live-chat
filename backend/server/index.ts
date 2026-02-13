@@ -10,7 +10,7 @@ async function startServer() {
     cors: {
       origin: [
         "http://localhost:4200",
-        "https://resident-live-chat-two.vercel.app/",
+        "https://resident-live-chat-two.vercel.app",
       ],
       methods: ["GET", "POST"],
     },
@@ -49,6 +49,10 @@ async function startServer() {
     });
 
     const PORT = process.env.PORT || 3000;
+
+    app.get("/health", (_req, res) => {
+      res.status(200).send("healthy");
+    });
 
     httpServer.listen(PORT, () => {
       console.log(`Server running on Port ${PORT}`);
