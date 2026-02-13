@@ -8,7 +8,10 @@ async function startServer() {
   const httpServer = createServer(app);
   const io = new Server(httpServer, {
     cors: {
-      origin: ["http://localhost:4200","https://resident-live-chat-buc3.onrender.com"],
+      origin: [
+        "http://localhost:4200",
+        "https://resident-live-chat-two.vercel.app/",
+      ],
       methods: ["GET", "POST"],
     },
   });
