@@ -7,8 +7,8 @@ import { fromEvent, map, Observable } from 'rxjs';
 interface ISocketService {
   sendMessage(data: Messages): void;
   watchNewMessage$(): Observable<Messages>;
-  join(user: string): void;
   watchUsersConnect$(): Observable<number>;
+  destroy(): void;
 }
 
 @Injectable({
@@ -16,13 +16,9 @@ interface ISocketService {
 })
 export class SocketService implements ISocketService {
   // Define socket service class
-  private static instanceCount = 0;
   private socket: Socket;
 
   constructor() {
-    SocketService.instanceCount++;
-    console.log('SocketService constructed. count=', SocketService.instanceCount);
-    
     this.socket = io(environment.socketUrl, {
       reconnectionDelayMax: 10000,
       auth: { token: 'Auth-token' },
@@ -36,11 +32,11 @@ export class SocketService implements ISocketService {
     return fromEvent(this.socket, 'messages');
   }
 
-  join(user: string) {
-    this.socket.emit('user:join', user);
-  }
-
   watchUsersConnect$(): Observable<number> {
     return fromEvent(this.socket, 'numConnected');
+  }
+
+  destroy(): void {
+    this.socket.disconnect();
   }
 }

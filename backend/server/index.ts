@@ -19,20 +19,29 @@ async function startServer() {
 
     io.on("connection", (socket) => {
       console.log("User connected:", socket.id);
-      numUsersConnected += 1;
-      io.emit("numConnected", numUsersConnected);
 
       socket.on("messages", (data) => {
+        if (data.ownerId == "system") {
+          numUsersConnected += 1;
+          io.emit("numConnected", numUsersConnected);
+        }
         socket.broadcast.emit("messages", data);
       });
 
-      socket.on("user:join", (user) => {
-        io.emit("system", `User ${user} has joined the chat`);
-      });
       socket.on("disconnect", () => {
         console.log("User disconnected", socket.id);
         numUsersConnected -= 1;
+        if (numUsersConnected < 0) {
+          numUsersConnected = 0;
+        }
         io.emit("numConnected", numUsersConnected);
+        const message = {
+          id: crypto.randomUUID(),
+          ownerId: "system",
+          message: "Someone has left the chat.",
+          timestamp: new Date().toDateString(),
+        };
+        socket.broadcast.emit("messages", message);
       });
     });
 

@@ -1,12 +1,13 @@
-import { Component, OnInit, output, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { SocketService } from '../../socket/socket.service';
 import { Messages, User } from '@shared/types';
 import { form, FormField, required, submit } from '@angular/forms/signals';
 import { ModalComponent } from '../Modal/modal.component';
 import { DatePipe } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-message',
   imports: [FormField, ModalComponent, DatePipe],
   templateUrl: './message.component.html',
 })
@@ -74,7 +75,6 @@ export class MessageComponent implements OnInit {
     });
     this.open.set(true);
   }
-
 
   sendMessage(event: Event): void {
     event.preventDefault();
