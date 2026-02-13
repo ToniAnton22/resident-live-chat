@@ -8,7 +8,7 @@ async function startServer() {
   const httpServer = createServer(app);
   const io = new Server(httpServer, {
     cors: {
-      origin: "http://localhost:4200",
+      origin: ["http://localhost:4200","https://resident-live-chat-buc3.onrender.com"],
       methods: ["GET", "POST"],
     },
   });
